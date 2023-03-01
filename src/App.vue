@@ -1,27 +1,30 @@
 <template>
-
-  <h1 class="qoute">The earth laugh in flowers</h1>
   <div class="container">
-    <div v-for="item in card" :key="item">
-      <img v-bind:src="item" />
+    <div class="qoute">
+      <h1>The earth laugh in flowers</h1>
+    </div>
+    <div v-for="item in card" :key="item.id">
+      <img :src="item.img" />
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  name: "App",
   data() {
     return {
-      card: [
-        "./public/flo.jfif",
-        "./public/download.jfif",
-        "./public/4.jfif",
-        "./public/flo5.jfif",
-        "./public/5.jfif"
-        
-      ],
+      card: [],
     };
+  },
+  methods: {
+    async loadData() {
+      let result = await axios.get("http://localhost:3000/card");
+      this.card = result.data;
+    },
+  },
+  mounted() {
+    this.loadData();
   },
 };
 </script>
@@ -31,21 +34,21 @@ body {
   overflow-x: hidden;
   box-sizing: border-box;
 }
-.qoute{
-  color:  #b06ab3;
-  margin-top: 90px;
+.qoute {
+  color: #b06ab3;
   text-align: center;
 
   font-size: 40px;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 .container {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 1rem;
- padding-top: 20px;
 }
 img {
   width: 250px;
